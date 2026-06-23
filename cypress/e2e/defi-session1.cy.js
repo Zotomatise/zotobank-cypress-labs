@@ -1,5 +1,4 @@
 describe("Robustesse de la connexion - Défi séance 1", () => {
-
   // les champs ont required → le navigateur bloque avant même d'appeler l'API
   it("champs vides : on reste sur /login, aucun appel API", () => {
     cy.visit("/login");
@@ -18,7 +17,7 @@ describe("Robustesse de la connexion - Défi séance 1", () => {
     cy.url().should("include", "/login");
   });
 
-  // l'API ne fait pas .trim(), donc " johndoe " ne matche pas "johndoe" en base
+  // l'API ne fait pas .trim(), donc " johndoe " ne matche pas "johndoe" en base top
   it("nom avec espaces autour est refusé", () => {
     cy.visit("/login");
     cy.get('[data-testid="signin-username"]').type(" johndoe ");
@@ -27,11 +26,9 @@ describe("Robustesse de la connexion - Défi séance 1", () => {
     cy.get('[data-testid="signin-error"]').should("be.visible");
     cy.url().should("include", "/login");
   });
-
 });
 
 describe("Bonus - Liens de la page de connexion", () => {
-
   it("signup-link mène vers /signup", () => {
     cy.visit("/login");
     cy.get('[data-testid="signup-link"]').click();
@@ -43,5 +40,4 @@ describe("Bonus - Liens de la page de connexion", () => {
     cy.get('[data-testid="forgot-password-link"]').click();
     cy.url().should("include", "/forgot-password");
   });
-
 });
