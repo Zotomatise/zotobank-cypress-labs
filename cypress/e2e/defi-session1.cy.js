@@ -1,5 +1,4 @@
 describe("Robustesse de la connexion - Défi séance 1", () => {
-
   // Analyser: les champs ont required, le navigateur bloque avant même d'appeler l'API
   // Actions: cliquer soumettre sans rien saisir
   // Prouver: on reste sur /login et aucun message d'erreur serveur n'apparaît
@@ -19,6 +18,10 @@ describe("Robustesse de la connexion - Défi séance 1", () => {
     cy.get('[data-testid="signin-password"]').type("s3cret");
     cy.get('[data-testid="signin-submit"]').click();
     cy.get('[data-testid="signin-error"]').should("be.visible");
+    cy.get('[data-testid="signin-error"]').should(
+      "contain.text",
+      "Nom d'utilisateur ou mot de passe incorrect",
+    );
     cy.url().should("include", "/login");
   });
 
@@ -33,11 +36,9 @@ describe("Robustesse de la connexion - Défi séance 1", () => {
     cy.get('[data-testid="signin-error"]').should("be.visible");
     cy.url().should("include", "/login");
   });
-
 });
 
 describe("Bonus - Liens de la page de connexion", () => {
-
   // Analyser: le lien d'inscription doit mener vers la page de création de compte
   // Actions: cliquer signup-link
   // Prouver: l'URL contient /signup
@@ -52,8 +53,12 @@ describe("Bonus - Liens de la page de connexion", () => {
   // Prouver: l'URL contient /forgot-password
   it("forgot-password-link mène vers /forgot-password", () => {
     cy.visit("/login");
+    cy.get('[data-testid="forgot-password-link"]').should(
+      "contain.text",
+      "Mot de passe oublié ?",
+    );
     cy.get('[data-testid="forgot-password-link"]').click();
     cy.url().should("include", "/forgot-password");
+    cy.get('[data-testid="forgot-submit"]').should("be.visible");
   });
-
 });
