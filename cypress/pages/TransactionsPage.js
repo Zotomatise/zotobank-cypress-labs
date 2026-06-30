@@ -7,90 +7,114 @@
 
 class TransactionsPage {
 
-  // --------------------------------------------------------------------------
-  // EXEMPLE 1 — action simple : visiter la page
-  // On retourne "this" pour pouvoir chaîner les appels :
+  // ============================================================
+  // LES ACTIONS — elles font quelque chose sur la page
+  // ============================================================
+  //
+  // Une action retourne "this" (l'objet lui-même) pour pouvoir
+  // enchaîner les appels sans répéter le nom de la variable :
+  //
   //   transactionsPage.visit().search("Loyer")
-  // --------------------------------------------------------------------------
+  //
+  // Au lieu de :
+  //   transactionsPage.visit()
+  //   transactionsPage.search("Loyer")
+  //
+  // Si tu n'enchaînes jamais, pas de problème — return this
+  // ne gêne pas, il est juste ignoré.
+  // ============================================================
+
+  // ACTION 1 — visiter la page (aucun paramètre)
   visit() {
     cy.visit("/transactions");
     return this;
   }
 
-  // --------------------------------------------------------------------------
-  // EXEMPLE 2 — action avec paramètre : lancer une recherche
-  // Le sélecteur est ici, une seule fois. Si demain il change,
-  // on corrige à UN seul endroit au lieu de toucher tous les tests.
-  // --------------------------------------------------------------------------
+  // ACTION 2 — lancer une recherche (avec un paramètre)
+  // Le sélecteur "transaction-search" est écrit UNE SEULE FOIS ici.
+  // Demain s'il change, on corrige à un seul endroit.
   search(terme) {
     cy.get('[data-testid="transaction-search"]').clear().type(terme);
     return this;
   }
 
-  // --------------------------------------------------------------------------
-  // EXEMPLE 3 — getter : renvoyer un élément SANS asserter
-  // C'est le TEST qui décide quoi vérifier, pas le Page Object.
+  // ============================================================
+  // LES GETTERS — ils donnent accès à un élément de la page
+  // ============================================================
   //
-  // Mauvais  :  items() { cy.get(...).should("have.length", 10) }
-  // Correct  :  items() { return cy.get('[data-testid^="transaction-item-"]') }
+  // Un getter retourne cy.get(...) — l'élément lui-même.
+  // Il n'asserte RIEN. C'est le test qui décide quoi vérifier.
   //
-  // Dans le test :
-  //   transactionsPage.items().should("have.length", 10)   <-- le test asserte
-  // --------------------------------------------------------------------------
+  // Pourquoi on ne fait PAS return this dans un getter ?
+  // Parce que le getter doit retourner l'élément pour que le
+  // test puisse l'utiliser. Si on retournait "this", le test
+  // récupèrerait la page, pas l'élément, et .should() ne
+  // fonctionnerait pas.
+  //
+  //   Mauvais  :  items() { cy.get(...).should("have.length", 10) }
+  //   → le Page Object décide de l'assertion. Rigide, difficile à réutiliser.
+  //
+  //   Correct  :  items() { return cy.get('[data-testid^="transaction-item-"]') }
+  //   → le test décide : .should("have.length", 10) ou .should("have.length", 5)
+  //                      selon ce qu'on teste.
+  // ============================================================
+
+  // GETTER 1 — les lignes de la liste (retourne plusieurs éléments)
   items() {
     return cy.get('[data-testid^="transaction-item-"]');
   }
 
-  // --------------------------------------------------------------------------
-  // À TOI DE COMPLÉTER (même logique que les 3 exemples ci-dessus)
+  // GETTER 2 — le message d'état vide
+  emptyState() {
+    return cy.get('[data-testid="transaction-empty-state"]');
+  }
+
+  // ============================================================
+  // À TOI DE COMPLÉTER — même logique que les 4 exemples ci-dessus
+  //
   // Sélecteurs disponibles :
   //   Filtre type    : transaction-filter-type   (all / sent / received)
   //   Filtre statut  : transaction-filter-status (all / complete / pending / rejected)
   //   Réinitialiser  : transaction-reset-filters
-  //   État vide      : transaction-empty-state
-  //   Montant ligne  : transaction-amount-tx-... (pattern : [data-testid^="transaction-amount-"])
-  // --------------------------------------------------------------------------
+  //   Montant ligne  : [data-testid^="transaction-amount-"]
+  // ============================================================
 
   filterByType(type) {
-    // à compléter
+    // action → return this
   }
 
   filterByStatus(status) {
-    // à compléter
+    // action → return this
   }
 
   reset() {
-    // à compléter
-  }
-
-  emptyState() {
-    // à compléter — getter, return cy.get(...)
+    // action → return this
   }
 
   firstAmount() {
-    // à compléter — getter, premier élément transaction-amount-*
+    // getter → return cy.get(...)
   }
 }
 
-// --------------------------------------------------------------------------
+// ============================================================
 // EXPORT — on exporte UNE instance, pas la classe.
-// Dans les tests :  import transactionsPage from "../pages/TransactionsPage"
-//                   transactionsPage.visit()   <- pas besoin de "new"
-// --------------------------------------------------------------------------
+// Dans les tests :
+//   import transactionsPage from "../pages/TransactionsPage"
+//   transactionsPage.visit()   ← pas besoin de "new"
+// ============================================================
 export default new TransactionsPage();
 
 // =============================================================================
-// COPILOT — une fois les 3 exemples compris, demande à Copilot de compléter :
+// COPILOT — une fois les 4 exemples compris, demande à Copilot de compléter :
 //
-// "Voici un Page Object Cypress pour la page /transactions de ZotoBank.
-//  Les méthodes visit(), search() et items() sont déjà implémentées.
-//  Complète les méthodes filterByType(), filterByStatus(), reset(),
-//  emptyState() et firstAmount() en suivant exactement le même style :
-//  - les actions retournent this
+// "Voici un Page Object Cypress pour la page /transactions.
+//  Les méthodes visit(), search(), items() et emptyState() sont implémentées.
+//  Complète filterByType(), filterByStatus(), reset() et firstAmount()
+//  en suivant le même style :
+//  - les actions font cy.get(...).action() et retournent this
 //  - les getters retournent cy.get(...) sans asserter
 //  Sélecteurs : transaction-filter-type, transaction-filter-status,
-//  transaction-reset-filters, transaction-empty-state,
-//  [data-testid^='transaction-amount-']"
+//  transaction-reset-filters, [data-testid^='transaction-amount-']"
 //
-// Ensuite : relis, comprends, et vérifie au vert avant de continuer.
+// Relis, comprends, vérifie au vert avant de continuer.
 // =============================================================================
