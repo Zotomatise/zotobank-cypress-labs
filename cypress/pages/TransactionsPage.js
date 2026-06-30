@@ -9,106 +9,84 @@
 class TransactionsPage {
 
   // ============================================================
-  // LES SÉLECTEURS — déclarés UNE SEULE FOIS en haut de la classe
-  //
-  // Avantage : si un data-testid change demain, tu corriges ici
-  // et toutes les méthodes qui l'utilisent sont automatiquement
-  // à jour. Tu ne cherches pas dans tout le fichier.
-  // ============================================================
-
-  searchInput    = '[data-testid="transaction-search"]';
-  emptyMessage   = '[data-testid="transaction-empty-state"]';
-
-  // À TOI D'AJOUTER les sélecteurs manquants :
-  //   transaction-filter-type
-  //   transaction-filter-status
-  //   transaction-reset-filters
-  //   [data-testid^="transaction-item-"]
-  //   [data-testid^="transaction-amount-"]
-  //   transaction-detail
-  //   transaction-detail-amount
-  //   transaction-detail-sender
-  //   transaction-detail-status
-
-  // ============================================================
   // LES ACTIONS — elles font quelque chose sur la page
   //
-  // Utilisent this.nomDuSelecteur au lieu d'écrire le data-testid
-  // directement dans cy.get(). Retournent "this" pour enchaîner :
+  // Retournent "this" pour pouvoir enchaîner :
   //   transactionsPage.filterByType("sent").search("inexistant")
   // ============================================================
 
-  // ACTION 1 — visiter la page (pas de sélecteur nécessaire ici)
+  // ACTION 1 — visiter la page
   visit() {
     cy.visit("/transactions");
     return this;
   }
 
   // ACTION 2 — lancer une recherche
-  // On utilise this.searchInput : si le data-testid change, on
-  // corrige uniquement la propriété en haut, pas ici.
+  // .clear() avant .type() au cas où le champ a déjà une valeur
   search(terme) {
-    cy.get(this.searchInput).clear().type(terme);
+    cy.get('[data-testid="transaction-search"]').clear().type(terme);
     return this;
   }
 
   filterByType(type) {
-    // cy.get(this.filterType).select(type)
+    // cy.get('[data-testid="transaction-filter-type"]').select(type)
     // return this
   }
 
   filterByStatus(status) {
-    // cy.get(this.filterStatus).select(status)
+    // cy.get('[data-testid="transaction-filter-status"]').select(status)
     // return this
   }
 
   reset() {
-    // cy.get(this.resetButton).click()
+    // cy.get('[data-testid="transaction-reset-filters"]').click()
     // return this
   }
 
   clickFirst() {
-    // cy.get(this.listItems).first().click()
+    // cy.get('[data-testid^="transaction-item-"]').first().click()
     // return this
   }
 
   // ============================================================
   // LES GETTERS — donnent accès à un élément de la page
   //
-  // Retournent cy.get(this.nomDuSelecteur) — PAS return this.
-  // Le test récupère l'élément et décide quoi vérifier :
-  //   transactionsPage.emptyState().should("be.visible")
+  // Retournent cy.get(...) — PAS return this.
+  // Pourquoi ? Le test a besoin de l'élément, pas de la page.
   //   transactionsPage.items().should("have.length", 10)
+  //                   ↑ retourne l'élément  ↑ le test asserte
+  //
+  // Si on retournait "this", .should() ne fonctionnerait pas.
   // ============================================================
 
   // GETTER 1 — toutes les lignes de la liste
   items() {
-    return cy.get(this.listItems);
+    return cy.get('[data-testid^="transaction-item-"]');
   }
 
   // GETTER 2 — le composant affiché quand la liste est vide
   emptyState() {
-    return cy.get(this.emptyMessage);
+    return cy.get('[data-testid="transaction-empty-state"]');
   }
 
   firstAmount() {
-    // return cy.get(this.amounts).first()
+    // return cy.get('[data-testid^="transaction-amount-"]').first()
   }
 
   detail() {
-    // return cy.get(this.detailContainer)
+    // return cy.get('[data-testid="transaction-detail"]')
   }
 
   detailAmount() {
-    // return cy.get(this.detailAmountEl)
+    // return cy.get('[data-testid="transaction-detail-amount"]')
   }
 
   detailSender() {
-    // return cy.get(this.detailSenderEl)
+    // return cy.get('[data-testid="transaction-detail-sender"]')
   }
 
   detailStatus() {
-    // return cy.get(this.detailStatusEl)
+    // return cy.get('[data-testid="transaction-detail-status"]')
   }
 }
 
@@ -123,12 +101,10 @@ export default new TransactionsPage();
 // COPILOT — une fois les 4 exemples compris, demande-lui de compléter :
 //
 // "Voici un Page Object Cypress pour /transactions de ZotoBank.
-//  visit(), search(), items() et emptyState() sont implémentés avec le
-//  pattern : sélecteurs comme propriétés de classe, utilisés via this.
-//  Complète les propriétés manquantes ET les méthodes vides en suivant
-//  exactement le même style.
-//  Méthodes actions (return this) : filterByType, filterByStatus, reset, clickFirst
-//  Méthodes getters (return cy.get) : firstAmount, detail, detailAmount, detailSender, detailStatus
+//  visit(), search(), items() et emptyState() sont implémentés.
+//  Complète les méthodes vides en suivant le même style :
+//  - actions : cy.get('[data-testid="..."]').action() puis return this
+//  - getters : return cy.get('[data-testid="..."]') sans asserter
 //  Sélecteurs :
 //    transaction-filter-type, transaction-filter-status, transaction-reset-filters,
 //    [data-testid^='transaction-item-'], [data-testid^='transaction-amount-'],
