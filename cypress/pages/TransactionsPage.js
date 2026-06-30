@@ -7,7 +7,6 @@
 // =============================================================================
 
 class TransactionsPage {
-
   // ============================================================
   // LES ACTIONS — elles font quelque chose sur la page
   //
@@ -29,23 +28,23 @@ class TransactionsPage {
   }
 
   filterByType(type) {
-    // cy.get('[data-testid="transaction-filter-type"]').select(type)
-    // return this
+    cy.get('[data-testid="transaction-filter-type"]').select(type);
+    return this;
   }
 
   filterByStatus(status) {
-    // cy.get('[data-testid="transaction-filter-status"]').select(status)
-    // return this
+    cy.get('[data-testid="transaction-filter-status"]').select(status);
+    return this;
   }
 
   reset() {
-    // cy.get('[data-testid="transaction-reset-filters"]').click()
-    // return this
+    cy.get('[data-testid="transaction-reset-filters"]').click();
+    return this;
   }
 
   clickFirst() {
-    // cy.get('[data-testid^="transaction-item-"]').first().click()
-    // return this
+    cy.get('[data-testid^="transaction-item-"]').first().click();
+    return this;
   }
 
   // ============================================================
@@ -69,24 +68,28 @@ class TransactionsPage {
     return cy.get('[data-testid="transaction-empty-state"]');
   }
 
+  statusFilter() {
+    return cy.get('[data-testid="transaction-filter-status"]');
+  }
+
   firstAmount() {
-    // return cy.get('[data-testid^="transaction-amount-"]').first()
+    return cy.get('[data-testid^="transaction-amount-"]').first();
   }
 
   detail() {
-    // return cy.get('[data-testid="transaction-detail"]')
+    return cy.get('[data-testid="transaction-detail"]');
   }
 
   detailAmount() {
-    // return cy.get('[data-testid="transaction-detail-amount"]')
+    return cy.get('[data-testid="transaction-detail-amount"]');
   }
 
   detailSender() {
-    // return cy.get('[data-testid="transaction-detail-sender"]')
+    return cy.get('[data-testid="transaction-detail-sender"]');
   }
 
   detailStatus() {
-    // return cy.get('[data-testid="transaction-detail-status"]')
+    return cy.get('[data-testid="transaction-detail-status"]');
   }
 }
 

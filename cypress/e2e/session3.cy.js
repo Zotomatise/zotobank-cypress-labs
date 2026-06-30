@@ -2,40 +2,38 @@
 // Regarde ces 3 tests : le login est copié-collé partout.
 // Question : si signin-submit change demain, combien d'endroits corriges-tu ?
 
-describe("AVANT le refactor — la répétition (à améliorer)", () => {
-  it("affiche la liste des transactions", () => {
-    cy.visit("/login");
-    cy.get('[data-testid="signin-username"]').type("johndoe");
-    cy.get('[data-testid="signin-password"]').type("s3cret");
-    cy.get('[data-testid="signin-submit"]').click();
-    cy.location("pathname").should("eq", "/dashboard");
+import TransactionsPage from "../pages/TransactionsPage";
 
-    cy.visit("/transactions");
-    cy.get('[data-testid="transaction-list"]').should("be.visible");
+describe("APRES le refactor — Page Object + commande custom", () => {
+  beforeEach(() => {
+    cy.login();
+    TransactionsPage.visit();
+  });
+
+  afterEach(() => {
+    cy.logout();
+  });
+
+  it("affiche la liste des transactions", () => {
+    TransactionsPage.items().should("have.length.greaterThan", 0);
   });
 
   it("affiche un état vide quand la recherche ne correspond à rien", () => {
-    cy.visit("/login");
-    cy.get('[data-testid="signin-username"]').type("johndoe");
-    cy.get('[data-testid="signin-password"]').type("s3cret");
-    cy.get('[data-testid="signin-submit"]').click();
-    cy.location("pathname").should("eq", "/dashboard");
-
-    cy.visit("/transactions");
-    cy.get('[data-testid="transaction-search"]').type("zzz-introuvable-zzz");
-    cy.get('[data-testid="transaction-empty-state"]').should("be.visible");
+    TransactionsPage.search("inexistant");
+    TransactionsPage.emptyState().should("be.visible");
   });
 
   it("réduit la liste avec le filtre Envoyés", () => {
-    cy.visit("/login");
-    cy.get('[data-testid="signin-username"]').type("johndoe");
-    cy.get('[data-testid="signin-password"]').type("s3cret");
-    cy.get('[data-testid="signin-submit"]').click();
-    cy.location("pathname").should("eq", "/dashboard");
+    TransactionsPage.items().its("length").as("initialCount");
+    TransactionsPage.filterByType("sent");
 
-    cy.visit("/transactions");
-    cy.get('[data-testid="transaction-filter-type"]').select("sent");
-    cy.get('[data-testid^="transaction-item-"]').should("have.length.greaterThan", 0);
+    TransactionsPage.items()
+      .its("length")
+      .then((filteredCount) => {
+        cy.get("@initialCount").then((initialCount) => {
+          expect(filteredCount).to.be.at.most(initialCount);
+        });
+      });
   });
 });
 

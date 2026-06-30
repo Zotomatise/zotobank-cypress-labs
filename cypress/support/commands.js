@@ -8,3 +8,9 @@ Cypress.Commands.add("login", (username = "johndoe", password = "s3cret") => {
   cy.get('[data-testid="signin-submit"]').click();
   cy.location("pathname").should("eq", "/dashboard");
 });
+
+Cypress.Commands.add("logout", () => {
+  cy.get('[data-testid="nav-logout"]').click();
+  cy.location("pathname").should("eq", "/login");
+});
+
