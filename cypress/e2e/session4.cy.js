@@ -21,7 +21,7 @@ import TransactionsPage from "../pages/TransactionsPage";
 // Lire ensemble. Identifier les deux problèmes avant de toucher au code.
 // ============================================================
 
-describe("AVANT — données codées en dur", () => {
+describe("E1/E2 — AVANT : données codées en dur", () => {
   beforeEach(() => {
     cy.login("johndoe", "s3cret"); // ← problème 1 : credential dans le code
     TransactionsPage.visit();      // ← problème 2 : login rejoué à chaque test
@@ -57,7 +57,7 @@ describe("AVANT — données codées en dur", () => {
 // Ce test sert de référence pour le prompt IA qui suit.
 // ============================================================
 
-describe("APRÈS — fixture externalisée + cy.session()", () => {
+describe("E3/E4 — APRÈS : fixture externalisée + cy.session()", () => {
   beforeEach(function () {
     cy.fixture("users").as("user"); // charge users.json, accessible via this.user
   });

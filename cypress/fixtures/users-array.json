@@ -1,0 +1,4 @@
+[
+  { "username": "johndoe",  "password": "s3cret", "displayName": "John Doe",   "role": "principal"   },
+  { "username": "janesmith","password": "s3cret", "displayName": "Jane Smith", "role": "beneficiaire" }
+]

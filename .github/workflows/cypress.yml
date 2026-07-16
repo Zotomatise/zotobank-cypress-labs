@@ -1,0 +1,42 @@
+name: Cypress Tests
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: '0 6 * * 1-5'  # Lundi-vendredi à 6h UTC (8h Paris)
+
+jobs:
+  cypress-run:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Run Cypress + résultats Allure
+        uses: cypress-io/github-action@v6
+        with:
+          config: baseUrl=https://zotobank.zotomatise.com
+        env:
+          CYPRESS_allure: true
+          CYPRESS_allureResultsPath: allure-results
+
+      - name: Générer le rapport Allure
+        if: always()
+        run: npx allure generate allure-results --clean -o allure-report
+
+      - name: Publier le rapport en artefact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report
+          path: allure-report
+          retention-days: 7

@@ -1,0 +1,12 @@
+{
+  "principal": {
+    "username": "johndoe",
+    "password": "s3cret",
+    "displayName": "John Doe"
+  },
+  "beneficiaire": {
+    "username": "janesmith",
+    "password": "s3cret",
+    "displayName": "Jane Smith"
+  }
+}
