@@ -1,5 +1,5 @@
 ---
-mode: agent
+mode: assistant
 description: Générer ou mettre à jour le workflow GitHub Actions Cypress + Allure
 ---
 
