@@ -28,6 +28,15 @@ describe("E1/E2 — AVANT : résultats CLI bruts", () => {
 
   it("connexion réussie", function () {
     // Pas d'annotation → sortie terminal uniquement
+    cy.allure()
+      .tag("smoke", "authentification")
+      .severity("critical")
+      .epic("Authentification")
+      .feature("Connexion utilisateur")
+      .story("Connexion utilisateur allure test")
+      .description(
+        "Vérifie que le login avec fixture redirige vers /dashboard",
+      );
     cy.login(this.user.username, this.user.password);
     cy.visit("/dashboard");
     cy.location("pathname").should("eq", "/dashboard");
@@ -99,7 +108,10 @@ describe("E3 — APRÈS : suite annotée Allure", () => {
     TransactionsPage.visit();
     TransactionsPage.search("inexistant");
     TransactionsPage.emptyState().should("be.visible");
-    TransactionsPage.emptyState().should("contain", "Aucune transaction trouvée");
+    TransactionsPage.emptyState().should(
+      "contain",
+      "Aucune transaction trouvée",
+    );
   });
 
   // cy.allure()
