@@ -13,5 +13,4 @@
 // https://on.cypress.io/configuration
 // ***********************************************************
 
-import '@shelex/cypress-allure-plugin';
 import './commands'
