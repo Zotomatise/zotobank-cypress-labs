@@ -7,6 +7,7 @@
     "cy:open": "cypress open",
     "cy:run": "cypress run",
     "cy:headed": "cypress run --headed",
+    "cy:file": "cypress run --spec",
     "test:allure": "cypress run --env allure=true",
     "report:generate": "allure generate allure-results --clean -o allure-report",
     "report:open": "allure open allure-report",
@@ -17,5 +18,9 @@
   "license": "ISC",
   "dependencies": {
     "cypress": "^15.17.0"
+  },
+  "devDependencies": {
+    "@shelex/cypress-allure-plugin": "^2.41.2",
+    "allure-commandline": "^2.43.0"
   }
 }
