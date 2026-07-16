@@ -31,7 +31,7 @@ jobs:
 
       - name: Générer le rapport Allure
         if: always()
-        run: npx allure generate allure-results --clean -o allure-report
+        run: allure generate allure-results --clean -o allure-report
 
       - name: Publier le rapport en artefact
         if: always()
