@@ -10,8 +10,8 @@ Contexte :
 - Les scripts npm `test:allure`, `report:generate`, `report:open` sont déjà dans `package.json`
 
 À faire :
-1. Ajouter `allureWriter` dans `cypress.config.js` (import + `setupNodeEvents`)
-2. Ajouter l'import du plugin en première ligne de `cypress/support/e2e.js`
+1. Ajouter dans `cypress.config.js` : `const allureWriter = require('@shelex/cypress-allure-plugin/writer');` (pas de déstructuration `{}`) puis appeler `allureWriter(on, config)` dans `setupNodeEvents`
+2. Ajouter `import '@shelex/cypress-allure-plugin';` en première ligne de `cypress/support/e2e.js`
 
 Ne touche pas aux tests existants.
 Montre les deux fichiers modifiés complets.

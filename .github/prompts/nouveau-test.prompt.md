@@ -1,5 +1,4 @@
 ---
-mode: agent
 description: Scaffolder un test Cypress ZotoBank avec la méthode ATAP
 ---
 # À placer dans : .github/prompts/nouveau-test.prompt.md

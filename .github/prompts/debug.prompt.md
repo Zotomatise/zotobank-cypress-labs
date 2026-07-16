@@ -1,5 +1,4 @@
 ---
-mode: agent
 description: Expliquer la cause d'un test Cypress rouge, puis corriger
 ---
 # À placer dans : .github/prompts/debug.prompt.md  (réglage chat.promptFiles activé)

@@ -1,5 +1,4 @@
 ---
-mode: agent
 description: Extraire la connexion répétée en commande custom cy.login()
 ---
 # À placer dans : .github/prompts/refactor.prompt.md  (réglage chat.promptFiles activé)
