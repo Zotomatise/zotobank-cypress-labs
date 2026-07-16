@@ -10,7 +10,7 @@ Contraintes :
 - `baseUrl` : `https://zotobank.zotomatise.com`
 - Allure activé via `CYPRESS_allure: true`
 - `if: always()` obligatoire sur les steps Allure (génération + upload)
-- Commande génération : `allure generate allure-results --clean -o allure-report` (pas `npx allure` — `allure-commandline` est installé en devDependency, disponible après `npm ci`)
+- Commande génération : `npx allure generate allure-results --clean -o allure-report` (`allure-commandline` est en devDependency — npx trouve la v2 locale, pas besoin de télécharger)
 - Artefact `allure-report` conservé 7 jours
 - Triggers : `push` sur `main` et `develop`, `pull_request` sur `main`, `schedule` lundi-vendredi à 6h UTC
 
