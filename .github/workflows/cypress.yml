@@ -40,3 +40,4 @@ jobs:
           name: allure-report
           path: allure-report
           retention-days: 7
+
