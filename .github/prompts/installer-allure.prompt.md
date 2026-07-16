@@ -1,5 +1,4 @@
 ---
-mode: assistant
 description: Configurer Allure Report dans ce projet Cypress
 ---
 

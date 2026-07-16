@@ -1,5 +1,4 @@
 ---
-mode: assistant
 description: Ajouter les annotations Allure sur les tests du bloc E3
 ---
 
