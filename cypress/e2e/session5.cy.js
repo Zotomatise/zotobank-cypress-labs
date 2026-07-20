@@ -28,7 +28,16 @@ describe("E1/E2 — AVANT : résultats CLI bruts", () => {
 
   it("connexion réussie", function () {
     // Pas d'annotation → sortie terminal uniquement
-    
+    cy.allure()
+      .tag("smoke", "authentification")
+      .severity("critical")
+      .epic("Connexion utilisateur")
+      .feature("Connexion via fixture")
+      .story("Connexion réussie")
+      .description(
+        "Vérifie que le login avec fixture redirige vers /dashboard",
+      );
+
     cy.login(this.user.username, this.user.password);
     cy.visit("/dashboard");
     cy.location("pathname").should("eq", "/dashboard");
