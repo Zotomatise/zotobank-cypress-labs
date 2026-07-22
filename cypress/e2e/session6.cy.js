@@ -240,7 +240,7 @@ describe("E6 — Scénario A : consultation du solde", () => {
 describe("E6 — Scénario B : effectuer un virement", () => {
   // ⚠ function() obligatoire ici — voir point ①
   beforeEach(function () {
-    cy.fixture("users").as("user2");
+    cy.fixture("users").as("user");
   });
 
   // LIVE BUILD — Copilot implémente à partir des commentaires ci-dessous
