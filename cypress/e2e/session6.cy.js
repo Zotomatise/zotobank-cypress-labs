@@ -234,15 +234,13 @@ describe("E6 — Scénario A : consultation du solde", () => {
   // 3. DashboardPage.visit()
   // 4. DashboardPage.balance().should("be.visible")
   // 5. DashboardPage.balance().invoke("text").should("match", /[\d\s,.]+/)  ← voir point ②
-  it("l'utilisateur voit son solde affiché sur le dashboard", function () {
-
-  });
+  it("l'utilisateur voit son solde affiché sur le dashboard", function () {});
 });
 
 describe("E6 — Scénario B : effectuer un virement", () => {
   // ⚠ function() obligatoire ici — voir point ①
   beforeEach(function () {
-    cy.fixture("users").as("user");
+    cy.fixture("users").as("user2");
   });
 
   // LIVE BUILD — Copilot implémente à partir des commentaires ci-dessous
@@ -259,9 +257,7 @@ describe("E6 — Scénario B : effectuer un virement", () => {
   // 10. NewTransactionPage.confirmAmount().should("contain", this.user.transferAmount)  ← voir point ⑤
   // 11. NewTransactionPage.confirm()
   // 12. NewTransactionPage.successMessage().should("be.visible")
-  it("l'utilisateur peut envoyer de l'argent à un autre compte", function () {
-
-  });
+  it("l'utilisateur peut envoyer de l'argent à un autre compte", function () {});
 });
 
 // ============================================================
