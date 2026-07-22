@@ -28,26 +28,12 @@ describe("E1 — Reprise S5 : suite annotée Allure", () => {
   });
 
   it("connexion via la fixture — pas de donnée codée en dur", function () {
-    cy.allure()
-      .tag("smoke", "authentification")
-      .severity("critical")
-      .story("Connexion utilisateur")
-      .description(
-        "Vérifie que le login avec fixture redirige vers /dashboard",
-      );
-
     cy.login(this.user.username, this.user.password);
     cy.visit("/dashboard");
     cy.location("pathname").should("eq", "/dashboard");
   });
 
   it("recherche sans résultat affiche l'état vide", function () {
-    cy.allure()
-      .tag("smoke", "transactions")
-      .severity("normal")
-      .story("Recherche transactions")
-      .description("Une recherche sans résultat affiche le message vide");
-
     cy.login(this.user.username, this.user.password);
     TransactionsPage.visit();
     TransactionsPage.search("inexistant");
@@ -55,11 +41,6 @@ describe("E1 — Reprise S5 : suite annotée Allure", () => {
   });
 
   it("le filtre Envoyés réduit la liste et Réinitialiser la restaure", function () {
-    cy.allure()
-      .tag("transactions", "filtres")
-      .severity("normal")
-      .story("Filtres transactions");
-
     cy.login(this.user.username, this.user.password);
     TransactionsPage.visit();
     TransactionsPage.items().should("have.length", 10);
@@ -70,11 +51,6 @@ describe("E1 — Reprise S5 : suite annotée Allure", () => {
   });
 
   it("cliquer une transaction ouvre la page de détail", function () {
-    cy.allure()
-      .tag("transactions", "navigation")
-      .severity("minor")
-      .story("Détail transaction");
-
     cy.login(this.user.username, this.user.password);
     TransactionsPage.visit();
     TransactionsPage.clickFirst();
