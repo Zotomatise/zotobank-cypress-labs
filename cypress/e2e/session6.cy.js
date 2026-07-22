@@ -9,6 +9,7 @@
 //   E3 — Déclencher avec une Pull Request             → DÉMO
 //   E4 — Ajouter le schedule (cron)                   → LIVE BUILD
 //   E5 — Connecter Cypress Cloud                      → LIVE BUILD
+//   E5b — Publier le rapport Allure sur GitHub Pages  → LIVE BUILD
 //   E6 — Tests E2E métier ZotoBank                    → LIVE BUILD
 // ============================================================
 
@@ -187,6 +188,37 @@ describe("E1 — Reprise S5 : suite annotée Allure", () => {
 //       CYPRESS_allureResultsPath: allure-results
 //
 // Pusher → observer le dashboard Cypress Cloud.
+// ============================================================
+
+// ============================================================
+// E5b — PUBLIER LE RAPPORT ALLURE SUR GITHUB PAGES (LIVE BUILD)
+//
+// Objectif : rendre le rapport HTML accessible via une URL publique.
+// On remplace l'artefact ZIP par une vraie page web consultable.
+//
+// 1. Activer GitHub Pages dans le dépôt :
+//    Settings → Pages → Source : "Deploy from a branch"
+//    Branch : gh-pages / root → Save
+//
+// 2. Ajouter un step dans le workflow, APRÈS le step "Générer le rapport Allure" :
+//
+//    - name: Publier rapport Allure sur GitHub Pages
+//      if: always()
+//      uses: peaceiris/actions-gh-pages@v3
+//      with:
+//        github_token: ${{ secrets.GITHUB_TOKEN }}
+//        publish_dir: ./allure-report
+//
+// 3. Pusher et attendre la fin du run.
+//    URL du rapport : https://<username>.github.io/<nom-du-repo>/
+//
+// POINT CLÉ : peaceiris/actions-gh-pages pousse le dossier allure-report
+//   dans la branche "gh-pages" automatiquement.
+//   On n'a pas besoin de créer la branche manuellement.
+//
+// POINT CLÉ 2 : le step doit avoir if: always()
+//   Même quand des tests échouent, le rapport doit être publié.
+//   Sans ça, la page GitHub Pages n'est pas mise à jour en cas d'échec.
 // ============================================================
 
 // ============================================================
