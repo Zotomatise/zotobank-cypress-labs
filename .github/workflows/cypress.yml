@@ -19,11 +19,22 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Verify Cypress binary
+        run: npx cypress verify
+
       - name: Run Cypress tests
         uses: cypress-io/github-action@v6
         with:
-          node-version: 20
-          install-command: npm ci
+          install: false
           config: baseUrl=https://zotobank.zotomatise.com
         env:
           CYPRESS_allure: true

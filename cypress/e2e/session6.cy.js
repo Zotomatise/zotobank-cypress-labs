@@ -195,65 +195,74 @@ describe("E1 — Reprise S5 : suite annotée Allure", () => {
 // Chaque test représente un vrai parcours utilisateur.
 // ============================================================
 
+// ============================================================
+// POINTS COMPLEXES — lire avant de coder en live
+//
+// ① beforeEach(function() {}) — PAS de flèche ( () => {} )
+//   → Cypress/Mocha lie "this" au contexte de test uniquement avec function()
+//   → Avec une flèche, this.user sera undefined
+//
+// ② .invoke("text").should("match", /[\d\s,.]+/)
+//   → invoke("text") extrait le texte brut de l'élément DOM
+//   → la regex vérifie que le texte contient au moins un chiffre
+//   → pas besoin de connaître le montant exact
+//
+// ③ getter retourne cy.get(), PAS this
+//   → DashboardPage.balance() retourne cy.get('[data-testid="..."]')
+//   → on peut chaîner .should() directement dessus
+//   → différent des actions qui retournent this pour enchaîner les étapes
+//
+// ④ flux en deux temps : submit() → modal → confirm()
+//   → submit() ouvre une modal de confirmation, il ne valide pas encore
+//   → il faut asserter la modal visible AVANT d'appeler confirm()
+//   → si on saute l'assertion, le test devient flaky
+//
+// ⑤ this.user.transferAmount est un string ("50"), pas un nombre
+//   → .should("contain", this.user.transferAmount) fonctionne car
+//     on vérifie une inclusion de texte, pas une égalité numérique
+// ============================================================
+
 describe("E6 — Scénario A : consultation du solde", () => {
+  // ⚠ function() obligatoire ici — voir point ①
   beforeEach(function () {
     cy.fixture("users").as("user");
   });
 
+  // LIVE BUILD — Copilot implémente à partir des commentaires ci-dessous
+  // 1. annoter avec cy.allure() : tag("e2e","dashboard"), severity("critical"), story("Consultation solde")
+  // 2. cy.login(this.user.username, this.user.password)
+  // 3. DashboardPage.visit()
+  // 4. DashboardPage.balance().should("be.visible")
+  // 5. DashboardPage.balance().invoke("text").should("match", /[\d\s,.]+/)  ← voir point ②
   it("l'utilisateur voit son solde affiché sur le dashboard", function () {
-    cy.allure()
-      .tag("e2e", "dashboard")
-      .severity("critical")
-      .story("Consultation solde")
-      .description(
-        "Après connexion, le solde est visible et contient une valeur numérique",
-      );
 
-    cy.login(this.user.username, this.user.password);
-    DashboardPage.visit();
-
-    DashboardPage.balance().should("be.visible");
-    DashboardPage.balance()
-      .invoke("text")
-      .should("match", /[\d\s,.]+/);
   });
 });
 
 describe("E6 — Scénario B : effectuer un virement", () => {
+  // ⚠ function() obligatoire ici — voir point ①
   beforeEach(function () {
     cy.fixture("users").as("user");
   });
 
+  // LIVE BUILD — Copilot implémente à partir des commentaires ci-dessous
+  // 1. annoter avec cy.allure() : tag("e2e","virement"), severity("critical"), story("Nouveau virement")
+  // 2. cy.login(this.user.username, this.user.password)
+  // 3. NewTransactionPage.visit()
+  // 4. NewTransactionPage.selectPayment()
+  // 5. NewTransactionPage.searchUser(this.user.recipient)      ← donnée depuis fixture
+  // 6. NewTransactionPage.selectFirstResult()
+  // 7. NewTransactionPage.fillAmount(this.user.transferAmount) ← donnée depuis fixture
+  // 8. NewTransactionPage.submit()
+  // --- assertions ---
+  // 9.  NewTransactionPage.confirmModal().should("be.visible")     ← voir point ④
+  // 10. NewTransactionPage.confirmAmount().should("contain", this.user.transferAmount)  ← voir point ⑤
+  // 11. NewTransactionPage.confirm()
+  // 12. NewTransactionPage.successMessage().should("be.visible")
   it("l'utilisateur peut envoyer de l'argent à un autre compte", function () {
-    cy.allure()
-      .tag("e2e", "virement")
-      .severity("critical")
-      .story("Nouveau virement")
-      .description(
-        "Login → /transactions/new → sélection destinataire → montant → confirmation",
-      );
 
-    cy.login(this.user.username, this.user.password);
-    NewTransactionPage.visit();
-    NewTransactionPage.selectPayment();
-    NewTransactionPage.searchUser(this.user.recipient);
-    NewTransactionPage.selectFirstResult();
-    NewTransactionPage.fillAmount(this.user.transferAmount);
-    NewTransactionPage.submit();
-
-    NewTransactionPage.confirmModal().should("be.visible");
-    NewTransactionPage.confirmAmount().should("contain", this.user.transferAmount);
-    NewTransactionPage.confirm();
-
-    NewTransactionPage.successMessage().should("be.visible");
   });
 });
-
-// ============================================================
-// BONUS — Scénario C : inscription d'un nouveau compte
-// À faire si le temps le permet.
-// Utilise un username unique pour éviter les conflits entre runs.
-// ============================================================
 
 // ============================================================
 // BONUS — Scénario C : inscription nouvel utilisateur
