@@ -1,5 +1,7 @@
 {
   "username": "johndoe",
   "password": "s3cret",
-  "displayName": "John Doe"
+  "displayName": "John Doe",
+  "recipient": "alice",
+  "transferAmount": "50"
 }
