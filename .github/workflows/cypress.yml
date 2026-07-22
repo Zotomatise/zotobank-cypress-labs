@@ -9,7 +9,7 @@ on:
     branches:
       - main
   schedule:
-    - cron: "0 6 * * 1-5"
+    - cron: "0 2 * * 1-5"
 
 jobs:
   cypress-tests:
@@ -40,6 +40,11 @@ jobs:
         with:
           install: false
           command: npx cypress run --config baseUrl=https://zotobank.zotomatise.com
+          record: true
+          parallel: true
+        env:
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Generate Allure report
         if: always()
