@@ -11,7 +11,8 @@
 //   E2 — Générer et lire le rapport         → COLLECTIF
 //   E3 — Annoter les tests avec cy.allure() → LIVE BUILD
 //   E4 — Créer le workflow GitHub Actions   → MANUEL (formateur)
-//   E5 — Comprendre if: always()            → DÉMO
+//   E5 — Comprendre if: always()
+// → DÉMO
 // ============================================================
 
 import TransactionsPage from "../pages/TransactionsPage";
