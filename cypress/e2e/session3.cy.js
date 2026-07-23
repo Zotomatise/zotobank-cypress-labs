@@ -27,7 +27,8 @@ describe("AVANT — login copié-collé dans chaque test", () => {
   });
 
   // Analyser : une recherche sans résultat doit afficher un état vide explicite
-  // Automatiser : même login recopié, puis chercher un terme inexistant
+  // Automatiser : même login recopié,
+  //  puis chercher un terme inexistant
   it("affiche un état vide quand la recherche ne correspond à rien", () => {
     cy.visit("/login");
     cy.get('[data-testid="signin-username"]').type("johndoe");
