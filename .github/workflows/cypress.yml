@@ -1,4 +1,4 @@
-name: Cypress CI + Allure
+name: Cypress CI
 
 on:
   push:
@@ -9,18 +9,17 @@ on:
     branches:
       - main
   schedule:
-    - cron: "0 2 * * 1-5"
+    - cron: "0 6 * * 1-5"
 
 jobs:
   cypress-tests:
     runs-on: ubuntu-latest
-
     env:
-      CYPRESS_BASE_URL: https://zotobank.zotomatise.com
+      CYPRESS_baseUrl: https://zotobank.zotomatise.com
       CYPRESS_allure: true
 
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v4
 
       - name: Setup Node.js 20
@@ -32,19 +31,14 @@ jobs:
       - name: Install dependencies (npm ci)
         run: npm ci
 
-      - name: Verify Cypress binary
+      - name: Cypress verify
         run: npx cypress verify
 
-      - name: Run Cypress tests
+      - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
           install: false
-          command: npx cypress run --config baseUrl=https://zotobank.zotomatise.com
-          record: true
-          parallel: true
-        env:
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          command: npx cypress run
 
       - name: Generate Allure report
         if: always()
